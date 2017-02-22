@@ -1,0 +1,12 @@
+/*
+ * Visualiser Styles
+ */
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+canvas {
+    width: 100%;
+    height: 100%
+}

@@ -1,2 +1,3 @@
-# visualise
-Web Music Visualiser
+# Visualise
+
+Music Visualiser using three.js
