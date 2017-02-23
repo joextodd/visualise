@@ -2,16 +2,19 @@
  * Three.js Visualiser
  */
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / (window.innerHeight - 140), 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 const listener = new THREE.AudioListener();
 const sound = new THREE.Audio(listener);
 const loader = new THREE.AudioLoader();
 
-renderer.setSize(window.innerWidth, window.innerHeight);
+let url = 'https://s3-eu-west-1.amazonaws.com/joextodd/media/test.mp3';
+const playButton = document.querySelector('#play');
+
+renderer.setSize(window.innerWidth, window.innerHeight - 160);
 document.body.appendChild(renderer.domElement);
 
-camera.position.x = 30;
+camera.position.x = 32;
 camera.position.y = 20;
 camera.position.z = 50;
 
@@ -68,12 +71,25 @@ class Equaliser {
 /*
  * Load sound
  */
-loader.load('instrumental8.mp3', (buffer) => {
+loader.load(url, (buffer) => {
   sound.setBuffer(buffer);
   sound.setLoop(true);
   sound.setVolume(0.5);
   sound.play();
+
+  playButton.disabled = false;
+  playButton.innerHTML = 'Pause';
 });
+
+playButton.onclick = () => {
+  if (sound.isPlaying) {
+    sound.pause();
+    playButton.innerHTML = 'Play';
+  } else {
+    sound.play();
+    playButton.innerHTML = 'Pause';
+  }
+}
 
 const eq = new Equaliser();
 const analyser = new THREE.AudioAnalyser(sound, eq.numBars * 2);
