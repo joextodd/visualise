@@ -39,7 +39,10 @@ const loadSound = (url) => {
 };
 
 loadButton.onclick = () => {
-  getAudioUrl(urlInput.value)
+  const url = urlInput.value.includes('youtube.com/watch') ?
+              urlInput.value.split('watch?v=')[1] :
+              urlInput.value;
+  getAudioUrl(url)
   .then((url) => loadSound(getAudioStream(url)));
 };
 

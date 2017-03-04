@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "serve": "http-server-spa build"
+    "serve": "http-server-spa build",
+    "deploy": "git subtree push --prefix build origin gh-pages"
   },
   "repository": {
     "type": "git",
