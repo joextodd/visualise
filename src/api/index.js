@@ -1,0 +1,27 @@
+/*
+ * API functions
+ */
+const baseUrl = 'https://api.joextodd.com';
+
+/*
+ * Get a audio stream url for a video.
+ * either video id or url can be specified.
+ */
+export const getAudioUrl = (url) => {
+  const streamUrl = `${baseUrl}/video/${url}`;
+  return new Promise((resolve, reject) => {
+    fetch(streamUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      resolve(data.url);
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  });
+};
+
+/*
+ * CORS proxy for audio stream url.
+ */
+export const getAudioStream = (url) => `${baseUrl}/proxy/${url}`;
