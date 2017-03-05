@@ -50,9 +50,6 @@ button {
     &:disabled {
         color: grey;
     }
-    &.arrow-right {
-        border: none;
-    }
 }
 
 
@@ -67,6 +64,9 @@ button {
     right: 3%;
     opacity: 0.9;
     border: none;
+    &:hover {
+        border: none;
+    }
 }
 
 polyline {
