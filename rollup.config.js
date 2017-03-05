@@ -9,11 +9,31 @@ import postcss from 'rollup-plugin-postcss';
 // PostCSS plugins
 import nested from 'postcss-nested';
 
+// Bundle Analysis
+import sizes from 'rollup-plugin-sizes';
+
+// https://github.com/mrdoob/three.js/blob/dev/rollup.config.js
+function glsl(){
+  return {
+    transform(code, id){
+      if (!/\.glsl$/.test(id)){
+        return;
+      }
+      return 'export default ' + JSON.stringify(
+        code
+        .replace(/[ \t]*\/\/.*\n/g, '')
+        .replace(/[ \t]*\/\*[\s\S]*?\*\//g, '')
+        .replace(/\n{2,}/g, '\n')
+      ) + ';';
+    }
+  };
+}
+
 export default {
   entry: 'src/main.js',
   dest: 'build/main.js',
   format: 'iife',
-  sourceMap: 'inline',
+  sourceMap: false,
   useStrict: false,
   plugins: [
     postcss({
@@ -27,9 +47,11 @@ export default {
       browser: true,
       extensions: ['.js']
     }),
+    glsl(),
     commonjs(),
     eslint({ exclude: ['src/**/*.scss'] }),
     babel({ exclude: ['node_modules/**', 'src/**/*.scss'] }),
-    (process.env.NODE_ENV === 'production' && uglify()),
+    uglify(),
+    sizes({ details: true })
   ],
-};
+}

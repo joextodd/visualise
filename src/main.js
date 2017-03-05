@@ -17,6 +17,7 @@ const playButton = document.querySelector('#play');
 const loadButton = document.querySelector('#load');
 const urlInput = document.querySelector('#url');
 
+document.body.style.display = 'block';
 renderer.setSize(window.innerWidth, window.innerHeight - 160);
 document.body.appendChild(renderer.domElement);
 
