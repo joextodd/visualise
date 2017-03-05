@@ -18,6 +18,19 @@ export const getAudioUrl = (url) => {
 };
 
 /*
+ * Get the next suggested video from YouTube.
+ */
+export const getNextVideo = (id) => {
+  const nextUrl = `${baseUrl}/video/${id}/next`;
+  return new Promise((resolve, reject) => {
+    fetch(nextUrl)
+    .then((response) => response.json())
+    .then((data) => resolve(data.id))
+    .catch((err) => reject(err));
+  });
+};
+
+/*
  * CORS proxy for audio stream url.
  */
 export const getAudioStream = (url) => `${baseUrl}/proxy/${url}`;
