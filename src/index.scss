@@ -50,6 +50,9 @@ button {
     &:disabled {
         color: grey;
     }
+    &.arrow-right {
+        border: none;
+    }
 }
 
 
