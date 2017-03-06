@@ -12,7 +12,7 @@ export const getAudioUrl = (url) => {
   return new Promise((resolve, reject) => {
     fetch(streamUrl)
     .then((response) => response.json())
-    .then((data) => resolve(data.url))
+    .then((data) => resolve(data))
     .catch((err) => reject(err));
   });
 };

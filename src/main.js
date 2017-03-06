@@ -7,11 +7,12 @@ import { Equaliser } from './visualisers/equaliser';
 import './index.scss';
 
 const scene = new Scene();
-const camera = new PerspectiveCamera(75, window.innerWidth / (window.innerHeight - 80), 0.1, 1000);
+const camera = new PerspectiveCamera(75, window.innerWidth / (window.innerHeight - 125), 0.1, 1000);
 const renderer = new WebGLRenderer();
 
-const loadButton = document.querySelector('#load');
-const urlInput = document.querySelector('#url');
+const loadButton = document.querySelector('.load');
+const urlInput = document.querySelector('input');
+const titleText = document.querySelector('video-title');
 const audio = document.querySelector('audio');
 audio.crossOrigin = 'anonymous';
 
@@ -27,7 +28,7 @@ let nextVideo = null;
 let data = new Uint8Array(analyser.frequencyBinCount);
 
 document.body.style.display = 'block';
-renderer.setSize(window.innerWidth, window.innerHeight - 160);
+renderer.setSize(window.innerWidth, window.innerHeight - 125);
 document.body.appendChild(renderer.domElement);
 
 camera.position.x = 32;
@@ -38,19 +39,17 @@ camera.position.z = 50;
  * Load audio into a buffer, and start playing.
  * Once playing get the next suggested video from YouTube.
  */
-const loadSound = (id, url) => {
+const loadAudio = (id, url, title) => {
 
-  if (!audio.paused) {
-    audio.pause();
-  }
-
+  audio.paused ? audio : audio.pause();
   audio.src = url;
   audio.play();
+
+  titleText.innerHTML = title;
 
   getNextVideo(id)
   .then((upNext) => {
     nextVideo = upNext;
-    console.log('next video = ' + upNext);
   });
 };
 
@@ -62,7 +61,7 @@ loadButton.onclick = () => {
              urlInput.value.split('watch?v=')[1].split('&')[0] :
              urlInput.value;
   getAudioUrl(id)
-  .then((url) => loadSound(id, getAudioStream(url)));
+  .then((data) => loadAudio(id, getAudioStream(data.url), data.title));
 };
 
 /*
@@ -70,11 +69,9 @@ loadButton.onclick = () => {
  * Only load next if we are not paused.
  */
 audio.onended = () => {
-  if (!audio.paused) {
-    audio.pause();
-  }
+  audio.paused ? audio : audio.pause();
   getAudioUrl(nextVideo)
-  .then((url) => loadSound(nextVideo, getAudioStream(url)));
+  .then((data) => loadAudio(nextVideo, getAudioStream(data.url), data.title));
 };
 
 /*
