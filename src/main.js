@@ -1,23 +1,30 @@
 /*
  * Three.js Visualiser
  */
-import { Scene, PerspectiveCamera, WebGLRenderer, AudioListener, Audio, AudioLoader, AudioAnalyser } from 'three';
+import { Scene, PerspectiveCamera, WebGLRenderer } from 'three';
 import { getAudioUrl, getNextVideo, getAudioStream } from  './api';
 import { Equaliser } from './visualisers/equaliser';
 import './index.scss';
 
 const scene = new Scene();
-const camera = new PerspectiveCamera(75, window.innerWidth / (window.innerHeight - 140), 0.1, 1000);
+const camera = new PerspectiveCamera(75, window.innerWidth / (window.innerHeight - 80), 0.1, 1000);
 const renderer = new WebGLRenderer();
-const listener = new AudioListener();
-const sound = new Audio(listener);
-const loader = new AudioLoader();
 
-const playButton = document.querySelector('#play');
 const loadButton = document.querySelector('#load');
 const urlInput = document.querySelector('#url');
+const audio = document.querySelector('audio');
+audio.crossOrigin = 'anonymous';
+
+const context = new (window.AudioContext || window.webkitAudioContext)();
+const eq = new Equaliser(scene);
+const analyser = context.createAnalyser();
+analyser.fftSize = 32;
+const source = context.createMediaElementSource(audio);
+source.connect(analyser);
+analyser.connect(context.destination);
 
 let nextVideo = null;
+let data = new Uint8Array(analyser.frequencyBinCount);
 
 document.body.style.display = 'block';
 renderer.setSize(window.innerWidth, window.innerHeight - 160);
@@ -27,30 +34,23 @@ camera.position.x = 32;
 camera.position.y = 20;
 camera.position.z = 50;
 
-camera.add(listener);
-
 /*
  * Load audio into a buffer, and start playing.
  * Once playing get the next suggested video from YouTube.
  */
 const loadSound = (id, url) => {
-  if (sound.isPlaying) {
-    sound.stop();
+
+  if (!audio.paused) {
+    audio.pause();
   }
-  loader.load(url, (buffer) => {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.5);
-    sound.play();
 
-    playButton.disabled = false;
-    playButton.innerHTML = 'Pause';
+  audio.src = url;
+  audio.play();
 
-    getNextVideo(id)
-    .then((id) => {
-      nextVideo = id;
-      console.log('next video = ' + id);
-    });
+  getNextVideo(id)
+  .then((upNext) => {
+    nextVideo = upNext;
+    console.log('next video = ' + upNext);
   });
 };
 
@@ -69,32 +69,13 @@ loadButton.onclick = () => {
  * When audio has finished, load next song.
  * Only load next if we are not paused.
  */
-sound.onEnded = () => {
-  if (playButton.innerHTML === 'Pause') {
-    sound.stop();
-    getAudioUrl(nextVideo)
-    .then((url) => loadSound(nextVideo, getAudioStream(url)));
+audio.onended = () => {
+  if (!audio.paused) {
+    audio.pause();
   }
+  getAudioUrl(nextVideo)
+  .then((url) => loadSound(nextVideo, getAudioStream(url)));
 };
-
-/*
- * Play/Pause audio.
- */
-playButton.onclick = () => {
-  if (sound.isPlaying) {
-    sound.pause();
-    playButton.innerHTML = 'Play';
-  } else {
-    sound.play();
-    playButton.innerHTML = 'Pause';
-  }
-};
-
-/*
- * Set up visualiser.
- */
-const eq = new Equaliser(scene);
-const analyser = new AudioAnalyser(sound, eq.numBars * 2);
 
 /*
  * Render scene with camera.
@@ -102,8 +83,8 @@ const analyser = new AudioAnalyser(sound, eq.numBars * 2);
 const render = () => {
   requestAnimationFrame(render);
 
-  analyser.getFrequencyData();
-  eq.update(analyser.data);
+  analyser.getByteFrequencyData(data);
+  eq.update(data);
 
   renderer.render(scene, camera);
 };
