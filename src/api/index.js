@@ -1,7 +1,7 @@
 /*
  * API functions
  */
-const baseUrl = 'https://api.joextodd.com';
+const baseUrl = 'http://46.101.3.16';
 
 /*
  * Get a audio stream url for a video.

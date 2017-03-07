@@ -14,7 +14,6 @@ const loadButton = document.querySelector('.load');
 const urlInput = document.querySelector('input');
 const titleText = document.querySelector('video-title');
 const audio = document.querySelector('audio');
-audio.crossOrigin = 'anonymous';
 
 const context = new (window.AudioContext || window.webkitAudioContext)();
 const eq = new Equaliser(scene);
@@ -57,7 +56,7 @@ const loadAudio = (id, url, title) => {
  * On click get video audio stream.
  */
 loadButton.onclick = () => {
-  const id = urlInput.value.includes('youtube.com/watch') ?
+  const id = urlInput.value.indexOf('youtube.com/watch') >= 0 ?
              urlInput.value.split('watch?v=')[1].split('&')[0] :
              urlInput.value;
   getAudioUrl(id)
