@@ -18,7 +18,7 @@ const audio = document.querySelector('audio');
 const context = new (window.AudioContext || window.webkitAudioContext)();
 const eq = new Equaliser(scene);
 const analyser = context.createAnalyser();
-analyser.fftSize = 32;
+analyser.fftSize = 64;
 const source = context.createMediaElementSource(audio);
 source.connect(analyser);
 analyser.connect(context.destination);

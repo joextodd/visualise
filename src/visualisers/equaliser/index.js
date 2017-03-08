@@ -43,7 +43,7 @@ export class Equaliser {
 
   init(scene) {
     for (let i = 0; i < this.numBars; i++) {
-      this.bars.push(new Bar(i * 2));
+      this.bars.push(new Bar(i));
       this.bars[i].bar.position.x = i * 2;
       scene.add(this.bars[i].bar);
     }
