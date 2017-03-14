@@ -1,7 +1,7 @@
 /*
  * Graphic Equaliser
  */
-import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three';
+import { BoxGeometry, Mesh, MeshNormalMaterial } from 'three';
 
 class Bar {
   /*
@@ -9,7 +9,7 @@ class Bar {
    */
   constructor() {
     this.geometry = new BoxGeometry(1, 0.5, 10, 10, 10, 10);
-    this.material = new MeshBasicMaterial({
+    this.material = new MeshNormalMaterial({
       wireframe: false,
       morphTargets: true
     });
@@ -21,13 +21,6 @@ class Bar {
     this.bar.scale.y = y;
   }
 
-  setColour(v) {
-    const r = ((v & 0b11100000) >> 5) / 7.0;
-    const g = ((v & 0b00011100) >> 2) / 7.0;
-    const b = (v & 0b00000011) / 3.0;
-    this.bar.material.color.setRGB(r, g, b);
-  }
-
 }
 
 /*
@@ -35,15 +28,21 @@ class Bar {
  */
 export class Equaliser {
 
-  constructor(scene) {
+  constructor() {
     this.numBars = 32;
-    this.bars = new Array();
-    this.init(scene);
+
+    this.init();
   }
 
-  init(scene) {
+  init() {
+    this.bars = new Array();
     for (let i = 0; i < this.numBars; i++) {
       this.bars.push(new Bar(i));
+    }
+  }
+
+  draw(scene) {
+    for (let i = 0; i < this.numBars; i++) {
       this.bars[i].bar.position.x = i * 2;
       scene.add(this.bars[i].bar);
     }
@@ -52,7 +51,6 @@ export class Equaliser {
   update(freqArray) {
     for (let i = 0; i < this.numBars; i++) {
       this.bars[i].setHeight((freqArray[i] / 4) + 1);
-      this.bars[i].setColour(freqArray[i]);
     }
   }
 
