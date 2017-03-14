@@ -4,6 +4,7 @@
 import { Scene, PerspectiveCamera, WebGLRenderer } from 'three';
 import { getAudioUrl, getNextVideo, getAudioStream } from  './api';
 import { Equaliser } from './visualisers/equaliser';
+import { CircleOfLife } from './visualisers/speaker';
 import './index.scss';
 
 const scene = new Scene();
@@ -13,16 +14,21 @@ const renderer = new WebGLRenderer();
 const loadButton = document.querySelector('.load');
 const urlInput = document.querySelector('input');
 const titleText = document.querySelector('video-title');
+const nextButton = document.querySelector('.arrow-right');
 const audio = document.querySelector('audio');
 
 const context = new (window.AudioContext || window.webkitAudioContext)();
-const eq = new Equaliser(scene);
+const visualisers = new Array();
 const analyser = context.createAnalyser();
 analyser.fftSize = 64;
 const source = context.createMediaElementSource(audio);
 source.connect(analyser);
 analyser.connect(context.destination);
 
+visualisers.push(new CircleOfLife());
+visualisers.push(new Equaliser());
+
+let vision = 0;
 let nextVideo = null;
 let data = new Uint8Array(analyser.frequencyBinCount);
 
@@ -33,6 +39,8 @@ document.body.appendChild(renderer.domElement);
 camera.position.x = 32;
 camera.position.y = 20;
 camera.position.z = 50;
+
+visualisers[vision].draw(scene);
 
 /*
  * Load audio into a buffer, and start playing.
@@ -74,13 +82,32 @@ audio.onended = () => {
 };
 
 /*
+ * Load next visualiser.
+ */
+nextButton.onclick = () => {
+  clearScene();
+  vision = (vision + 1) % visualisers.length;
+  visualisers[vision].init();
+  visualisers[vision].draw(scene);
+};
+
+/*
+ * Clear the scene.
+ */
+const clearScene = () => {
+  for (var i = scene.children.length - 1; i >= 0; i--) {
+    scene.remove(scene.children[i]);
+  }
+};
+
+/*
  * Render scene with camera.
  */
 const render = () => {
   requestAnimationFrame(render);
 
   analyser.getByteFrequencyData(data);
-  eq.update(data);
+  visualisers[vision].update(data);
 
   renderer.render(scene, camera);
 };

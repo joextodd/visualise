@@ -49,9 +49,9 @@ export default {
     }),
     glsl(),
     commonjs(),
-    eslint({ exclude: ['src/**/*.scss'] }),
-    babel({ exclude: ['node_modules/**', 'src/**/*.scss'] }),
-    uglify(),
-    sizes({ details: true })
+    (process.env.NODE_ENV === 'prod' && eslint({ exclude: ['src/**/*.scss'] })),
+    (process.env.NODE_ENV === 'prod' && babel({ exclude: ['node_modules/**', 'src/**/*.scss'] })),
+    (process.env.NODE_ENV === 'prod' && uglify()),
+    (process.env.NODE_ENV === 'prod' && sizes({ details: true }))
   ],
 }
