@@ -8,8 +8,11 @@ body {
 }
 
 header {
+    display: flex;
     height: 50px;
-    padding: 10px 100px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 audio {
@@ -35,7 +38,7 @@ footer {
 }
 
 input {
-    width: calc(100% - 120px);
+    flex: 100%;
     height: 50px;
     background: transparent;
     outline: none;
@@ -52,7 +55,7 @@ button {
     background: transparent;
     font-size: .8rem;
     color: white;
-    margin: 0 10px;
+    margin-left: 20px;
     text-transform: uppercase;
     outline: none;
     cursor: pointer;
