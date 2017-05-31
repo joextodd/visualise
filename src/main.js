@@ -8,7 +8,7 @@ import { CircleOfLife } from './visualisers/speaker';
 import './index.scss';
 
 const scene = new Scene();
-const camera = new PerspectiveCamera(75, window.innerWidth / (window.innerHeight - 125), 0.1, 1000);
+const camera = new PerspectiveCamera(75, window.innerWidth / (window.innerHeight - 138), 0.1, 1000);
 const renderer = new WebGLRenderer();
 
 const loadButton = document.querySelector('.load');
@@ -33,7 +33,7 @@ let nextVideo = null;
 let data = new Uint8Array(analyser.frequencyBinCount);
 
 document.body.style.display = 'block';
-renderer.setSize(window.innerWidth, window.innerHeight - 125);
+renderer.setSize(window.innerWidth, window.innerHeight - 138);
 document.body.appendChild(renderer.domElement);
 
 camera.position.x = 32;
