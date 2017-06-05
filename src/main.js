@@ -64,11 +64,15 @@ const loadAudio = (id, url, title) => {
  * On click get video audio stream.
  */
 loadButton.onclick = () => {
-  const id = urlInput.value.indexOf('youtube.com/watch') >= 0 ?
-             urlInput.value.split('watch?v=')[1].split('&')[0] :
-             urlInput.value;
-  getAudioUrl(id)
-  .then((data) => loadAudio(id, getAudioStream(data.url), data.title));
+  const re = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+  const match = urlInput.value.match(re);
+
+  if (match.length > 1) {
+    getAudioUrl(match[1])
+    .then((data) => loadAudio(match[1], getAudioStream(data.url), data.title));
+  } else {
+    window.alert('Not a valid YouTube URL');
+  }
 };
 
 /*
