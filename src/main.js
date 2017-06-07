@@ -30,6 +30,7 @@ visualisers.push(new CircleOfLife());
 visualisers.push(new Equaliser());
 
 let vision = 0;
+let autoplay = true;
 let nextVideo = null;
 let data = new Uint8Array(analyser.frequencyBinCount);
 
@@ -63,12 +64,32 @@ const loadAudio = (id, url, title) => {
 
 /*
  * Load next track.
- * Only load next if we are not paused.
  */
 const nextAudio = () => {
   audio.paused ? audio : audio.pause();
-  getAudioUrl(nextVideo)
-  .then((data) => loadAudio(nextVideo, getAudioStream(data.url), data.title));
+  if (autoplay) {
+    getAudioUrl(nextVideo)
+    .then((data) => loadAudio(nextVideo, getAudioStream(data.url), data.title));
+  }
+};
+
+/*
+ * Grab video id from query param.
+ */
+const loadVideoUrl = () => {
+  const videoId = window.location.href.split('id=');
+  if (videoId.length > 1 && videoId[1].length === 11) {
+    getAudioUrl(videoId[1])
+    .then((data) => loadAudio(videoId[1], getAudioStream(data.url), data.title));
+  }
+};
+
+/*
+ * Get autoplay from query param.
+ */
+const loadAutoplay = () => {
+  const autoParam = window.location.href.split('autoplay=');
+  autoplay = !(autoParam.length > 1 && autoParam[1] === 'false');
 };
 
 /*
@@ -136,3 +157,5 @@ const render = () => {
 };
 
 render();
+loadVideoUrl();
+loadAutoplay();
