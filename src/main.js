@@ -16,6 +16,7 @@ const urlInput = document.querySelector('input');
 const titleText = document.querySelector('video-title');
 const nextButton = document.querySelector('.arrow-right');
 const audio = document.querySelector('audio');
+const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 const context = new (window.AudioContext || window.webkitAudioContext)();
 const visualisers = new Array();
@@ -61,6 +62,27 @@ const loadAudio = (id, url, title) => {
 };
 
 /*
+ * Load next track.
+ * Only load next if we are not paused.
+ */
+const nextAudio = () => {
+  audio.paused ? audio : audio.pause();
+  getAudioUrl(nextVideo)
+  .then((data) => loadAudio(nextVideo, getAudioStream(data.url), data.title));
+};
+
+/*
+ * iOS seems to add a length of silence
+ * at the end of the stream, so load next
+ * track when we are passed half way.
+ */
+audio.ontimeupdate = () => {
+  if (iOS && audio.currentTime > audio.duration / 2) {
+    nextAudio();
+  }
+};
+
+/*
  * On click get video audio stream.
  */
 loadButton.onclick = () => {
@@ -77,12 +99,9 @@ loadButton.onclick = () => {
 
 /*
  * When audio has finished, load next song.
- * Only load next if we are not paused.
  */
 audio.onended = () => {
-  audio.paused ? audio : audio.pause();
-  getAudioUrl(nextVideo)
-  .then((data) => loadAudio(nextVideo, getAudioStream(data.url), data.title));
+  nextAudio();
 };
 
 /*
