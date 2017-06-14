@@ -40,7 +40,7 @@ document.body.appendChild(renderer.domElement);
 
 camera.position.x = 32;
 camera.position.y = 20;
-camera.position.z = 50;
+camera.position.z = 48 + (10000 / window.innerWidth);
 
 visualisers[vision].draw(scene);
 
