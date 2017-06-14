@@ -25,16 +25,28 @@ audio {
 
 footer {
     width: 100%;
-    height: 75px;
+    height: 130px;
     bottom: 0;
     position: absolute;
     text-align: center;
 
     video-title {
-        height: 30px;
-        width: 100%;
+        height: 96px;
+        width: 96%;
         color: white;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        margin: 0px 10px 20px 10px;
+        bottom: 30px;
+        left: 0;
+        position: fixed;
+        z-index: 1;
     }
+}
+
+canvas {
+    z-index: 0;
 }
 
 input {
