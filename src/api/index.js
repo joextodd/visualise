@@ -1,7 +1,7 @@
 /*
  * API functions
  */
-const baseUrl = 'https://youtube.joextodd.com';
+const baseUrl = 'https://api.audiostream.world';
 
 /*
  * Get a audio stream url for a video.

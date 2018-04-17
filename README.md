@@ -1,5 +1,4 @@
 # Visualise
 
-Music Visualiser using three.js
+Music Visualiser using WebGL and Web Audio API
 
-**DEMO:** https://joextodd.github.io/visualise/
