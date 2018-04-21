@@ -1,10 +1,11 @@
-import Waveform from './visualisers/waveform';
-import './index.scss';
+import Spectrum from './visualisers/spectrum'
+import Waveform from './visualisers/waveform'
+import './index.scss'
 
 const context = new (window.AudioContext || window.webkitAudioContext)()
 const canvas = document.getElementById('visualiser')
 const scopeContext = canvas.getContext('2d')
-const visualisers = new Array(Waveform)
+const visualisers = new Array(Waveform, Spectrum)
 let vIndex = 0
 
 navigator.mediaDevices.getUserMedia({ audio: true, video: false, echoCancellation: true })
@@ -21,7 +22,7 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false, echoCancellatio
   canvas.height = window.innerHeight
 
   processor.onaudioprocess = function(e) {
-    visualisers[vIndex].process(e.inputBuffer.getChannelData(0))
+    visualisers[vIndex].process(analyser)
     e.outputBuffer.getChannelData(0).forEach((v) => v = 0)
   }
 })
@@ -30,5 +31,4 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false, echoCancellatio
 canvas.onclick = () => {
   scopeContext.clearRect(0, 0, canvas.width, canvas.height)
   vIndex = (vIndex + 1) % visualisers.length
-  console.log('next visualiser')
 }
