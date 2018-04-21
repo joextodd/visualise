@@ -1,7 +1,6 @@
 import Waveform from './visualisers/waveform';
 import './index.scss';
 
-const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 const context = new (window.AudioContext || window.webkitAudioContext)()
 const canvas = document.getElementById('visualiser')
 const scopeContext = canvas.getContext('2d')
