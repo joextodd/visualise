@@ -3,35 +3,10 @@
     <meta charset=utf-8>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Visualise</title>
-    <link rel="shortcut icon" type="image/x-icon"
-          href="http://e-cdn-files.deezer.com/images/common/favicon/favicon-v00352314.ico"/>
-    <style>
-      body {
-        display: none;
-        background: black;
-      }
-    </style>
+    <link rel="icon" type="image/png" href="/favicon.png" />
   </head>
   <body>
-
-    <header>
-      <input type="text" placeholder="Enter YouTube Video URL" />
-      <button class="load" type="button">Load</button>
-    </header>
-
-    <button class="arrow-right">
-      <svg width="50px" height="50px" viewBox="0 0 50 80">
-        <polyline fill="none" stroke="#fff" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round"
-              points="0.375,0.375 45.63,38.087 0.375,75.8"/>
-      </svg>
-    </button>
-
-    <footer>
-      <video-title></video-title>
-      <audio controls crossorigin="anonymous"></audio>
-    </footer>
-
+    <canvas id="visualiser"></canvas>
     <script src="main.js"></script>
   </body>
 </html>
