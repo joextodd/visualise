@@ -1,5 +1,5 @@
 # Visualise
 
-Music Visualiser using WebGL and Web Audio API
+Music Visualiser using Web Audio API
 
 https://visualise.world
