@@ -3,9 +3,11 @@ import Spectrum from './visualisers/spectrum'
 import Waveform from './visualisers/waveform'
 import './index.scss'
 
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 const context = new (window.AudioContext || window.webkitAudioContext)()
 const canvas = document.getElementById('visualiser')
 const visualisers = new Array(Waveform, Equaliser, Spectrum)
+isSafari ? visualisers.shift() : visualisers
 let vIndex = 0
 
 const processor = context.createScriptProcessor(0, 1, 1)
