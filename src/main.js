@@ -28,7 +28,7 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false, echoCancellatio
 })
 .catch((err) => window.alert(err))
 
-canvas.onclick = () => {
+document.body.onclick = () => {
   vIndex = (vIndex + 1) % visualisers.length
   visualisers[vIndex].init(analyser)
 }

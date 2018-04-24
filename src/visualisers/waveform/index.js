@@ -4,7 +4,8 @@ const ctx = canvas.getContext('2d')
 export default {
 
   init: (analyser) => {
-    canvas.width = analyser.frequencyBinCount
+    const waveform = new Float32Array(analyser.frequencyBinCount)
+    canvas.width = waveform.length
     canvas.height = window.innerHeight
     canvas.style.height = '100vh';
     ctx.clearRect(0, 0, canvas.width, canvas.height)
