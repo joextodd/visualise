@@ -1,5 +1,5 @@
 # Visualise
 
-Music Visualiser using Web Audio API
+Audio Visualiser using Web Audio API
 
 https://visualise.world
