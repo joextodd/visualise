@@ -10,13 +10,13 @@ isSafari ? visualisers.shift() : visualisers
 let vIndex = 0
 let analyser
 
-const context = new (window.AudioContext || window.webkitAudioContext)()
-const processor = context.createScriptProcessor(0, 1, 1)
-analyser = context.createAnalyser()
-
 navigator.mediaDevices.getUserMedia({ audio: true, video: false, echoCancellation: true })
 .then(function (stream) {
+  const context = new (window.AudioContext || window.webkitAudioContext)()
+  const processor = context.createScriptProcessor(0, 1, 1)
   const source = context.createMediaStreamSource(stream)
+  analyser = context.createAnalyser()
+
   source.connect(processor)
   source.connect(analyser)
   processor.connect(context.destination)
