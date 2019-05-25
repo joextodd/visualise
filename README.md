@@ -2,4 +2,4 @@
 
 Audio Visualiser using Web Audio API
 
-https://visualise.world
+https://audio-visualiser.web.app
