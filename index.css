@@ -37,12 +37,14 @@ button {
     text-transform: uppercase;
     outline: none;
     cursor: pointer;
-    &:hover {
-        border: 2px solid white;
-        color: white;
-        font-size: .85rem;
-    }
-    &:disabled {
-        color: grey;
-    }
+}
+
+button:hover {
+    border: 2px solid white;
+    color: white;
+    font-size: .85rem;
+}
+
+button:disabled {
+    color: grey;
 }

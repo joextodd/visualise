@@ -1,2 +1,4 @@
-.firebase/*
-node_modules/*
+.firebase
+.parcel-cache
+node_modules
+dist

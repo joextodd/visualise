@@ -21,7 +21,7 @@ export default {
       slice.data[4 * i + 0] = analyser.spectrum[analyser.spectrum.length - i]  // R
       slice.data[4 * i + 1] = analyser.spectrum[analyser.spectrum.length - i]  // G
       slice.data[4 * i + 2] = analyser.spectrum[analyser.spectrum.length - i]  // B
-      slice.data[4 * i + 3] = 255                            // A
+      slice.data[4 * i + 3] = 255                                              // A
     }
     ctx.putImageData(slice, offset, 0)
     offset += 1

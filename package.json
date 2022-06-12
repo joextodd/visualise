@@ -1,37 +1,23 @@
 {
   "name": "visualise",
-  "version": "2.0.0",
-  "description": "Music Visualiser using WebGL",
-  "main": "visualiser.js",
+  "version": "3.0.0",
+  "description": "Audio Visualiser using Web Audio API",
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -c -w",
-    "serve": "http-server-spa build",
-    "package": "NODE_ENV=prod rollup -c",
-    "deploy": "git subtree push --prefix build origin gh-pages"
+    "build": "rm -rf dist && ./node_modules/parcel/lib/bin.js build app.js --no-source-maps && cp index.html dist && cp index.css dist",
+    "start": "./node_modules/parcel/lib/bin.js serve index.html"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/joextodd/visualise.git"
   },
   "author": "Joe Todd <joextodd@gmail.com>",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/joextodd/visualise/issues"
   },
   "homepage": "https://github.com/joextodd/visualise#readme",
   "devDependencies": {
-    "babel-preset-es2015-rollup": "^3.0.0",
-    "http-server-spa": "^1.2.0",
-    "postcss-nested": "^1.0.0",
-    "rollup": "^0.41.4",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^7.0.0",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-plugin-postcss": "^0.2.0",
-    "rollup-plugin-sizes": "^0.3.0",
-    "rollup-plugin-uglify": "^1.0.1",
-    "rollup-watch": "^3.2.2"
+    "esm": "^3.2.25",
+    "parcel": "^2.0.0-rc.0"
   },
   "dependencies": {}
 }

@@ -1,7 +1,13 @@
 {
   "hosting": {
-    "public": "build",
-    "ignore": [],
+    "public": "dist",
+    "ignore": [
+      "package-lock.json",
+      "firebase.json",
+      ".firebase",
+      ".parcel-cache",
+      "**/node_modules/**"
+    ],
     "rewrites": [
       {
         "source": "**",
