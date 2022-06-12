@@ -5,6 +5,7 @@ let pixelWidth = 0
 export default {
 
   init: (analyser) => {
+    analyser.spectrum = new Uint8Array(analyser.frequencyBinCount)
     pixelWidth = Math.ceil(window.innerWidth / analyser.frequencyBinCount)
     canvas.width = analyser.frequencyBinCount
     canvas.height = window.innerHeight / 2
@@ -13,13 +14,12 @@ export default {
   },
 
   process: (analyser) => {
-    const spectrum = new Uint8Array(analyser.frequencyBinCount)
-    analyser.getByteFrequencyData(spectrum)
+    analyser.getByteFrequencyData(analyser.spectrum)
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    for (var i = 0; i < spectrum.length; i++) {
+    for (var i = 0; i < analyser.spectrum.length; i++) {
       ctx.fillRect(
-        i * pixelWidth, window.innerHeight / 2 - spectrum[i],
+        i * pixelWidth, window.innerHeight / 2 - analyser.spectrum[i],
         pixelWidth, window.innerHeight / 2
       )
     }
